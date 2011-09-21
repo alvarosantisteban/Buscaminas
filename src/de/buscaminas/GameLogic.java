@@ -2,12 +2,12 @@ package de.buscaminas;
 
 import java.util.Random;
 
-public class Game {
+public class GameLogic {
 	int nrRows;
 	int nrMines;
 	Quadrant quads[][];
 	Random rand = new Random();
-	public Game(int rows){
+	public GameLogic(int rows){
 		this.nrRows = rows;
 		this.nrMines = (rows * rows) / 8;
 		this.quads = new Quadrant[rows][rows];

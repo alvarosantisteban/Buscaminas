@@ -17,7 +17,7 @@ public class BuscaminasActivity extends Activity {
 	TableLayout tl;
 	TableRow tableRows[];
 	Button mineField[][];
-	Game game;
+	GameLogic game;
 	
     /** Called when the activity is first created. */
     @Override
@@ -29,13 +29,13 @@ public class BuscaminasActivity extends Activity {
         ourText = (EditText)findViewById(R.id.editText1);
         tl = (TableLayout)findViewById(R.id.tableLayout1);
         
-        this.game = new Game(nrRows);
+        this.game = new GameLogic(nrRows);
         this.tableRows = new TableRow[nrRows];
         this.mineField = new Button[nrRows][nrRows];
         
         for (int row = 0; row < nrRows; row++ ){
         	this.tableRows[row] = new TableRow(this);
-        	tl.addView(this.tableRows[row]);
+        	tl.addView( this.tableRows[row] );
         	for (int col = 0; col < nrRows; col++ ){
         		mineField[row][col] = new Button(this);
         		if (game.quads[row][col].mineOnQuad){
