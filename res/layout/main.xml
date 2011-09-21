@@ -25,13 +25,13 @@
         <Button 
         	android:layout_height="wrap_content" 
         	android:id="@+id/testbutton" 
-        	android:text="Play!" 
+        	android:text="@string/buttonPlay" 
         	android:layout_width="150px">
         </Button>
     </LinearLayout>
-<TableLayout 
-	android:layout_height="wrap_content" 
-	android:id="@+id/tableLayout1" 
-	android:layout_width="match_parent">
-</TableLayout>
+	<TableLayout 
+		android:layout_height="wrap_content" 
+		android:id="@+id/tableLayout1" 
+		android:layout_width="match_parent">
+	</TableLayout>
 </LinearLayout>

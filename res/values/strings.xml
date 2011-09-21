@@ -2,4 +2,5 @@
 <resources>
     <string name="hello">Hello World, BuscaminasActivity!</string>
     <string name="app_name">Buscaminas</string>
+    <string name="buttonPlay">Start game</string>
 </resources>

@@ -33,7 +33,7 @@ public class BuscaminasActivity extends Activity { //GUI
         this.tableRows = new TableRow[nrRows];
         this.mineField = new Button[nrRows][nrRows];
         
-        for (int row = 0; row < nrRows; row++ ){ //It's dinamically setup
+        for (int row = 0; row < nrRows; row++ ){ //It's Dynamically setup
         	this.tableRows[row] = new TableRow(this);
         	tl.addView(this.tableRows[row]);
         	for (int col = 0; col < nrRows; col++ ){
