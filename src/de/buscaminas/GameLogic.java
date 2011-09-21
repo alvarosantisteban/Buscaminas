@@ -2,7 +2,7 @@ package de.buscaminas;
 
 import java.util.Random;
 
-public class GameLogic {
+public class GameLogic { // LOGIC
 	int nrRows;
 	int nrMines;
 	Quadrant quads[][];

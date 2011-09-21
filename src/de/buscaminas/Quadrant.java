@@ -5,6 +5,6 @@ public class Quadrant {
 	boolean mineOnQuad;
 	public Quadrant(){
 		this.state = ViewState.UNTOUCHED;
-		this.mineOnQuad = false;
+		this.mineOnQuad = false; 
 	}
 }
