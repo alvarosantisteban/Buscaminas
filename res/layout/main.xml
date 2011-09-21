@@ -4,13 +4,34 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:weightSum="1">
-    <LinearLayout android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/linearLayout1">
-        <SeekBar android:layout_weight="1" android:id="@+id/seekBar1" android:layout_width="match_parent" android:layout_height="fill_parent"></SeekBar>
-        <EditText android:layout_height="wrap_content" android:id="@+id/editText1" android:layout_weight="1" android:inputType="numberSigned" android:layout_width="fill_parent" android:width="150px">
-            <requestFocus></requestFocus>
+    <LinearLayout 
+   		android:layout_height="wrap_content" 
+    	android:layout_width="match_parent" 
+    	android:id="@+id/linearLayout1">
+        <SeekBar 
+        	android:layout_weight="1" 
+        	android:id="@+id/seekBar1" 
+        	android:layout_width="match_parent" 
+        	android:layout_height="fill_parent">
+        </SeekBar>
+        <EditText 
+        	android:layout_height="wrap_content" 
+        	android:id="@+id/editText1" 
+        	android:layout_weight="1" 
+        	android:inputType="numberSigned" 
+        	android:layout_width="fill_parent" 
+        	android:width="150px">
         </EditText>
-        <Button android:layout_height="wrap_content" android:id="@+id/testbutton" android:text="Play!" android:layout_width="150px"></Button>
+        <Button 
+        	android:layout_height="wrap_content" 
+        	android:id="@+id/testbutton" 
+        	android:text="Play!" 
+        	android:layout_width="150px">
+        </Button>
     </LinearLayout>
-<TableLayout android:layout_height="wrap_content" android:id="@+id/tableLayout1" android:layout_width="match_parent">
+<TableLayout 
+	android:layout_height="wrap_content" 
+	android:id="@+id/tableLayout1" 
+	android:layout_width="match_parent">
 </TableLayout>
 </LinearLayout>
