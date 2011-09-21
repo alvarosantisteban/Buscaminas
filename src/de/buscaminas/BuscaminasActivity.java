@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
-public class BuscaminasActivity extends Activity {
+public class BuscaminasActivity extends Activity { //GUI
 	Button ourButton;
 	EditText ourText;
 	TableLayout tl;
@@ -33,7 +33,7 @@ public class BuscaminasActivity extends Activity {
         this.tableRows = new TableRow[nrRows];
         this.mineField = new Button[nrRows][nrRows];
         
-        for (int row = 0; row < nrRows; row++ ){
+        for (int row = 0; row < nrRows; row++ ){ //It's dinamically setup
         	this.tableRows[row] = new TableRow(this);
         	tl.addView(this.tableRows[row]);
         	for (int col = 0; col < nrRows; col++ ){
