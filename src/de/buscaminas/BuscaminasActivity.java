@@ -3,6 +3,7 @@ package de.buscaminas;
 import de.buscaminas.R.layout;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,6 +19,7 @@ public class BuscaminasActivity extends Activity { //GUI
 	TableRow tableRows[];
 	Button mineField[][];
 	GameLogic game;
+	OnClickListener buttonListener;
 	
     /** Called when the activity is first created. */
     @Override
@@ -28,6 +30,19 @@ public class BuscaminasActivity extends Activity { //GUI
         ourButton = (Button)findViewById(R.id.testbutton);
         ourText = (EditText)findViewById(R.id.editText1);
         tl = (TableLayout)findViewById(R.id.tableLayout1);
+        
+        buttonListener = new OnClickListener(){
+
+			public void onClick(View arg0) {
+				Button b = (Button)arg0;
+				if(b.getText() == "x"){
+					ourText.setText("MINE!");
+				}else{
+					ourText.setText("NO MINE");
+				}
+			}
+        	
+        };
         
         this.game = new GameLogic(nrRows);
         this.tableRows = new TableRow[nrRows];
@@ -45,9 +60,10 @@ public class BuscaminasActivity extends Activity { //GUI
         		}
         			
         		this.tableRows[row].addView(mineField[row][col]);
+        		this.mineField[row][col].setOnClickListener(buttonListener);
         	}
         }
-        
+       
         ourButton.setOnClickListener(new OnClickListener(){
 
 			public void onClick(View arg0) {
