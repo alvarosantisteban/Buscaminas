@@ -7,6 +7,7 @@ public class GameLogic { // LOGIC
 	int nrMines;
 	Quadrant quads[][];
 	Random rand = new Random();
+	
 	public GameLogic(int rows){
 		this.nrRows = rows;
 		this.nrMines = (rows * rows) / 8;
@@ -26,5 +27,26 @@ public class GameLogic { // LOGIC
 			}
 		}
 	}
-
+	
+	public void setNumbers(){
+    	for (int row = 0; row < nrRows; row++ ){
+        	for (int col = 0; col < nrRows; col++ ){
+        		if (this.quads[row][col].mineOnQuad){ 
+        			// There is a Mine
+        			//Check all the quadrants around this position
+        			for(int x=row-1; x<=row+1; x++){
+        				for(int y=col-1; y<=col+1; y++){
+        					if(x<0 || x>=nrRows || y<0 || y>=nrRows || this.quads[x][y].mineOnQuad){
+        						//Out of at least one border or there is a bomb
+        						//Don't do anything
+        					}else{
+        						//Set +1
+        						this.quads[x][y].addOne();
+        					}
+        				}
+        			}
+        		}
+        	}
+        }
+    }
 }
