@@ -84,8 +84,8 @@ public class BuscaminasActivity extends Activity { //GUI
         		QuadrantButton curr_field = mineField[row][col];
         		
         		// show debug text
-        		if (curr_field.quadrant.number > 0){
-        			curr_field.setText(String.valueOf((curr_field.quadrant.number)));
+        		if (curr_field.quadrant.nrAdjacentMines > 0){
+        			curr_field.setText(String.valueOf((curr_field.quadrant.nrAdjacentMines)));
         		} 
         		else if (curr_field.quadrant.mineOnQuad){
         			curr_field.setText("x");
