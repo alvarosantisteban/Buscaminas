@@ -13,12 +13,12 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 
 public class BuscaminasActivity extends Activity { //GUI
-	Button ourButton;
+	Button newGameBtn;
 	EditText ourText;
 	int nrRows;
 	TableLayout tl;
 	TableRow tableRows[];
-	Button mineField[][];
+	QuadrantButton mineField[][];
 	GameLogic game;
 	OnClickListener buttonListener;
 	
@@ -28,76 +28,84 @@ public class BuscaminasActivity extends Activity { //GUI
     	nrRows = 7;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        ourButton = (Button)findViewById(R.id.testbutton);
+        newGameBtn = (Button)findViewById(R.id.testbutton);
         ourText = (EditText)findViewById(R.id.editText1);
         tl = (TableLayout)findViewById(R.id.tableLayout1);
         buttonListener = new OnClickListener(){
         	
 			public void onClick(View arg0) {
-				Button b = (Button)arg0;
-				if(b.getText() == "x"){
+				QuadrantButton b = (QuadrantButton)arg0;
+				if( b.quadrant.mineOnQuad ){
 					ourText.setText("MINE!");
 				}else{
 					ourText.setText("NO MINE");
 				}
+				game.explore(b.quadrant);
+				updateMineFieldView();
 			}
-        	
         };
         
-        this.game = new GameLogic(nrRows);
-        this.tableRows = new TableRow[nrRows];
-        this.mineField = new Button[nrRows][nrRows];
-        setMines();
-        this.game.setNumbers();
-        viewNumbers();
-        ourButton.setOnClickListener(new OnClickListener(){
-
+        newGameBtn.setOnClickListener(new OnClickListener(){
 			public void onClick(View arg0) {
-				ourText.setText("you clicked me baby");
-				
+				ourText.setText("new game " + String.valueOf(nrRows));
+				create_new_game( nrRows );
 			}
-        	
         });
+        create_new_game( nrRows );
     }
     
-    public void setMines(){
+    private void create_new_game( int nrRows ){
+        game = new GameLogic(nrRows);
+        tableRows = new TableRow[nrRows];
+        mineField = new QuadrantButton[nrRows][nrRows];
+        new Button(this);
+        setupMineFileButtons();
+        game.setNumbers();
+        updateMineFieldView();
+    }
+    
+    public void setupMineFileButtons(){
+    	tl.removeAllViews();
     	for (int row = 0; row < nrRows; row++ ){ //It's Dynamically setup
         	this.tableRows[row] = new TableRow(this);
         	tl.addView( this.tableRows[row] );
         	for (int col = 0; col < nrRows; col++ ){
-        		mineField[row][col] = new Button(this);
-        		if (game.quads[row][col].mineOnQuad){
-        			mineField[row][col].setText("x");
-        		} else { 
-        			//mineField[row][col].setText("o");
-        		}
-        			
+        		mineField[row][col] = new QuadrantButton(this, this.game.quads[row][col]);
         		this.tableRows[row].addView(mineField[row][col]);
         		this.mineField[row][col].setOnClickListener(buttonListener);
         	}
         }
     }    
     
-    public void viewNumbers(){
+    public void updateMineFieldView(){
     	System.out.println("En viewNumbers");
     	for (int row = 0; row < nrRows; row++ ){
         	for (int col = 0; col < nrRows; col++ ){
-        		if (game.quads[row][col].number == 1){
-        			mineField[row][col].setText("1");
-        		}else if (game.quads[row][col].number == 2){
-        			mineField[row][col].setText("2");
-        		}else if (game.quads[row][col].number == 3){
-        			mineField[row][col].setText("3");
-        		}else if (game.quads[row][col].number == 4){
-        			mineField[row][col].setText("4");
-        		}else if (game.quads[row][col].number == 5){
-        			mineField[row][col].setText("5");
-        		}else if (game.quads[row][col].number == 6){
-        			mineField[row][col].setText("6");
-        		}else if (game.quads[row][col].number == 7){
-        			mineField[row][col].setText("7");
-        		}else if (game.quads[row][col].number == 8){
-        			mineField[row][col].setText("8");
+        		QuadrantButton curr_field = mineField[row][col];
+        		
+        		// show debug text
+        		if (curr_field.quadrant.number > 0){
+        			curr_field.setText(String.valueOf((curr_field.quadrant.number)));
+        		} 
+        		else if (curr_field.quadrant.mineOnQuad){
+        			curr_field.setText("x");
+        		} 
+        		else {
+        			curr_field.setText("o");
+        		}
+        		
+        		// show state (button-color)
+        		if (curr_field.quadrant.state == ViewState.UNTOUCHED){
+        			curr_field.setTextColor( Color.BLACK );
+        		} 
+        		else if (curr_field.quadrant.state == ViewState.DISCOVERED){
+        			curr_field.setTextColor( Color.BLUE );
+        		} 
+        		else if (curr_field.quadrant.state == ViewState.BOMBED){
+        			curr_field.setTextColor( Color.RED );
+        		} 
+        		else if (curr_field.quadrant.state == ViewState.MARKED){
+        			curr_field.setTextColor( Color.GREEN );
         		}
         	}
         }

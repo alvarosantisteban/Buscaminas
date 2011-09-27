@@ -49,4 +49,12 @@ public class GameLogic { // LOGIC
         	}
         }
     }
+	
+	public void explore( Quadrant qadrant ){
+		for (int row = 0; row < nrRows; row++){
+			for (int col = 0; col < nrRows; col++){
+				quads[row][col].state = ViewState.DISCOVERED;
+			}
+		}
+	}
 }
