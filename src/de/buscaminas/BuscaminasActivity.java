@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
-
 public class BuscaminasActivity extends Activity { //GUI
 	static final private int INT_REQ_GAME_OPTIONS = 0;
 	
@@ -29,8 +28,10 @@ public class BuscaminasActivity extends Activity { //GUI
     	nrRows = 7;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+       
         ourText = (EditText)findViewById(R.id.editText1);
         tl = (TableLayout)findViewById(R.id.tableLayout1);
+        
         fieldListener = new OnClickListener(){
         	
 			public void onClick(View arg0) {
@@ -51,9 +52,6 @@ public class BuscaminasActivity extends Activity { //GUI
     public void newGameClick(View target){
 		Intent gameOptionsInt = new Intent(this, de.buscaminas.MineFieldOptionsActivity.class);
 		startActivityForResult( gameOptionsInt, INT_REQ_GAME_OPTIONS );
-		// ourText.setText("new game " + String.valueOf(nrRows));
-		// create_new_game( nrRows );
-    	
     }
     
     protected void onActivityResult(int requestCode, int resultCode, Intent data){

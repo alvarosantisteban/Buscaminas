@@ -10,7 +10,7 @@
     	android:layout_height="fill_parent">
     	
         <TextView 
-        	android:id="@+id/textView1" 
+        	android:id="@+id/txtViewMineFieldSize" 
         	android:text="Mine field size" 
 	    	android:layout_marginTop="50px" 
 	    	android:layout_marginBottom="20px" 
@@ -25,7 +25,7 @@
         	android:layout_width="wrap_content" 
         	android:layout_height="wrap_content">
             <EditText 
-            	android:id="@+id/editText1" 
+            	android:id="@+id/txtMineFieldSize" 
             	android:inputType="number" 
             	android:layout_height="wrap_content" 
             	android:layout_width="100px"
@@ -34,15 +34,15 @@
             	
             </EditText>
             <SeekBar 
-            	android:id="@+id/seekBar1" 
+            	android:id="@+id/seekMineFieldSize" 
             	android:layout_marginTop="10px" 
             	android:layout_height="wrap_content" 
             	android:layout_width="200px"
             	></SeekBar>
         </TableRow>
         <TextView 
-        	android:id="@+id/textView2" 
-        	android:text="Number of Bombs" 
+        	android:id="@+id/txtViewNumberOfBombs" 
+        	android:text="Number of Bombs (ignored)" 
 	    	android:layout_marginTop="50px" 
 	    	android:layout_marginBottom="20px" 
         	android:textAppearance="?android:attr/textAppearanceLarge" 
@@ -52,7 +52,7 @@
         
         <TableRow android:id="@+id/tableRow3" android:layout_width="wrap_content" android:layout_height="wrap_content">
             <EditText 
-            	android:id="@+id/editText2" 
+            	android:id="@+id/txtNumberOfBombs" 
             	android:inputType="number" 
             	android:layout_height="wrap_content" 
             	android:layout_width="100px"
@@ -60,7 +60,7 @@
             	android:layout_marginLeft="20px" >
             </EditText>
             <SeekBar 
-            	android:id="@+id/seekBar2" 
+            	android:id="@+id/seekNumberOfBombs" 
             	android:layout_marginTop="10px" 
             	android:layout_height="wrap_content" 
             	android:layout_width="200px"
