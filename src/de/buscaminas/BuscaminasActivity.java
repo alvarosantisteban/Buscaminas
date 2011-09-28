@@ -3,6 +3,7 @@ package de.buscaminas;
 import de.buscaminas.R.layout;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -12,26 +13,25 @@ import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
+
 public class BuscaminasActivity extends Activity { //GUI
-	Button newGameBtn;
+	static final private int INT_REQ_GAME_OPTIONS = 0;
+	
 	EditText ourText;
 	int nrRows;
 	TableLayout tl;
 	TableRow tableRows[];
 	QuadrantButton mineField[][];
 	GameLogic game;
-	OnClickListener buttonListener;
+	OnClickListener fieldListener;
 	
-    /** Called when the activity is first created. */
-    @Override
     public void onCreate(Bundle savedInstanceState) {
     	nrRows = 7;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        newGameBtn = (Button)findViewById(R.id.testbutton);
         ourText = (EditText)findViewById(R.id.editText1);
         tl = (TableLayout)findViewById(R.id.tableLayout1);
-        buttonListener = new OnClickListener(){
+        fieldListener = new OnClickListener(){
         	
 			public void onClick(View arg0) {
 				QuadrantButton b = (QuadrantButton)arg0;
@@ -45,13 +45,31 @@ public class BuscaminasActivity extends Activity { //GUI
 			}
         };
         
-        newGameBtn.setOnClickListener(new OnClickListener(){
-			public void onClick(View arg0) {
-				ourText.setText("new game " + String.valueOf(nrRows));
-				create_new_game( nrRows );
-			}
-        });
         create_new_game( nrRows );
+    }
+    
+    public void newGameClick(View target){
+		Intent gameOptionsInt = new Intent(this, de.buscaminas.MineFieldOptionsActivity.class);
+		startActivityForResult( gameOptionsInt, INT_REQ_GAME_OPTIONS );
+		// ourText.setText("new game " + String.valueOf(nrRows));
+		// create_new_game( nrRows );
+    	
+    }
+    
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+    	switch (requestCode) {
+    		case (INT_REQ_GAME_OPTIONS):
+    			if ( resultCode == RESULT_OK ){
+    				this.nrRows = data.getExtras().getInt("rows"); 
+    				ourText.setText("new game " + String.valueOf(nrRows));
+    				create_new_game( nrRows );
+    			} else { 
+    				System.out.println("no valid game options replied");
+    			}
+    			break;
+    		default:
+    			System.out.println("unkonwn request code");
+    	}
     }
     
     private void create_new_game( int nrRows ){
@@ -72,7 +90,7 @@ public class BuscaminasActivity extends Activity { //GUI
         	for (int col = 0; col < nrRows; col++ ){
         		mineField[row][col] = new QuadrantButton(this, this.game.quads[row][col]);
         		this.tableRows[row].addView(mineField[row][col]);
-        		this.mineField[row][col].setOnClickListener(buttonListener);
+        		this.mineField[row][col].setOnClickListener(fieldListener);
         	}
         }
     }    
