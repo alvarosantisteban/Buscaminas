@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent" android:orientation="vertical">
+    <TableLayout 
+    	android:layout_marginTop="100px" 
+    	android:layout_width="match_parent" 
+    	android:id="@+id/tableLayout1" 
+    	android:layout_height="fill_parent">
+    	
+        <TextView 
+        	android:id="@+id/txtViewMineFieldSize" 
+        	android:text="Mine field size" 
+	    	android:layout_marginTop="50px" 
+	    	android:layout_marginBottom="20px" 
+        	android:textAppearance="?android:attr/textAppearanceLarge" 
+        	android:layout_height="wrap_content" 
+        	android:layout_width="wrap_content">
+        </TextView>
+        <TableRow android:id="@+id/tableRow1" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        </TableRow>
+        <TableRow 
+        	android:id="@+id/tableRow2" 
+        	android:layout_width="wrap_content" 
+        	android:layout_height="wrap_content">
+            <EditText 
+            	android:id="@+id/txtMineFieldSize" 
+            	android:inputType="number" 
+            	android:layout_height="wrap_content" 
+            	android:layout_width="100px"
+            	android:layout_marginRight="25px" 
+            	android:layout_marginLeft="20px" >
+            	
+            </EditText>
+            <SeekBar 
+            	android:id="@+id/seekMineFieldSize" 
+            	android:layout_marginTop="10px" 
+            	android:layout_height="wrap_content" 
+            	android:layout_width="200px"
+            	></SeekBar>
+        </TableRow>
+        <TextView 
+        	android:id="@+id/txtViewNumberOfBombs" 
+        	android:text="Number of Bombs (ignored)" 
+	    	android:layout_marginTop="50px" 
+	    	android:layout_marginBottom="20px" 
+        	android:textAppearance="?android:attr/textAppearanceLarge" 
+        	android:layout_height="wrap_content" 
+        	android:layout_width="wrap_content">
+        </TextView>
+        
+        <TableRow android:id="@+id/tableRow3" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <EditText 
+            	android:id="@+id/txtNumberOfBombs" 
+            	android:inputType="number" 
+            	android:layout_height="wrap_content" 
+            	android:layout_width="100px"
+            	android:layout_marginRight="25px" 
+            	android:layout_marginLeft="20px" >
+            </EditText>
+            <SeekBar 
+            	android:id="@+id/seekNumberOfBombs" 
+            	android:layout_marginTop="10px" 
+            	android:layout_height="wrap_content" 
+            	android:layout_width="200px"
+            	></SeekBar>
+        </TableRow>
+        <Button 
+	    	android:layout_marginTop="50px" 
+        	android:text="Done" 
+        	android:layout_height="wrap_content" 
+        	android:layout_width="wrap_content" 
+        	android:id="@+id/button1" 
+        	android:onClick="sendReplyClick" 
+        	/>
+        <TableRow android:id="@+id/tableRow4" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        </TableRow>
+    </TableLayout>
+    
+</LinearLayout>

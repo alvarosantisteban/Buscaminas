@@ -1,19 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:weightSum="1">
+    android:weightSum="1" android:layout_height="match_parent" android:layout_width="match_parent">
     <LinearLayout 
    		android:layout_height="wrap_content" 
     	android:layout_width="match_parent" 
     	android:id="@+id/linearLayout1">
-        <SeekBar 
-        	android:layout_weight="1" 
-        	android:id="@+id/seekBar1" 
-        	android:layout_width="match_parent" 
-        	android:layout_height="fill_parent">
-        </SeekBar>
         <EditText 
         	android:layout_height="wrap_content" 
         	android:id="@+id/editText1" 
@@ -26,118 +18,13 @@
         	android:layout_height="wrap_content" 
         	android:id="@+id/testbutton" 
         	android:text="@string/buttonPlay" 
-        	android:layout_width="150px">
-        </Button>
+        	android:layout_width="150px" 
+        	android:onClick="newGameClick"
+        	/>
     </LinearLayout>
     <TableLayout 
 		android:layout_height="wrap_content" 
 		android:id="@+id/tableLayout1" 
 		android:layout_width="match_parent">
 	</TableLayout>
- <!--  
-	<TableLayout 
-		android:layout_height="wrap_content" 
-		android:id="@+id/tableLayout1" 
-		android:layout_width="match_parent">
-		<TableRow 
-			android:layout_height="wrap_content"
-			android:layout_width="fill_parent"
-			android:id="@+id/TableRow1"
-			>
-			<Button 
-				android:layout_height="wrap_content"
-				android:layout_width="fill_parent"
-				android:layout_weight="1"
-				android:id="@+id/Button1"
-				/>
-			<Button 
-				android:layout_height="wrap_content"
-				android:layout_width="fill_parent"
-				android:layout_weight="1"
-				android:id="@+id/Button2"
-				/>
-			<Button 
-				android:layout_height="wrap_content"
-				android:layout_width="fill_parent"
-				android:layout_weight="1"
-				android:id="@+id/Button3"
-				/>
-		</TableRow>
-		<TableRow 
-			android:layout_height="wrap_content"
-			android:layout_width="fill_parent"
-			android:id="@+id/TableRow2"
-			>
-			<Button 
-				android:layout_height="wrap_content"
-				android:layout_width="fill_parent"
-				android:layout_weight="1"
-				android:id="@+id/Button4"
-				/>
-			<Button 
-				android:layout_height="wrap_content"
-				android:layout_width="fill_parent"
-				android:layout_weight="1"
-				android:id="@+id/Button5"
-				/>
-			<Button 
-				android:layout_height="wrap_content"
-				android:layout_width="fill_parent"
-				android:layout_weight="1"
-				android:id="@+id/Button6"
-				/>
-		</TableRow>
-		<TableRow 
-			android:layout_height="wrap_content"
-			android:layout_width="fill_parent"
-			android:id="@+id/TableRow3"
-			>
-			<Button 
-				android:layout_height="wrap_content"
-				android:layout_width="fill_parent"
-				android:layout_weight="1"
-				android:layout_x="12px"
-       			android:layout_y="120px"
-				android:id="@+id/Button7"
-				/>
-			<Button 
-				android:layout_height="wrap_content"
-				android:layout_width="fill_parent"
-				android:layout_weight="1"
-				android:layout_x="100px"
-       			android:layout_y="120px"
-				android:id="@+id/Button8"
-				/>
-			<Button 
-				android:layout_height="wrap_content"
-				android:layout_width="fill_parent"
-				android:layout_weight="1"
-				android:layout_x="200px"
-       			android:layout_y="120px"
-				android:id="@+id/Button9"
-				/>
-		</TableRow>
-	</TableLayout>
-	-->
-	<!--  
-	<AbsoluteLayout
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
-    <Button
-        android:layout_width="113px"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        android:layout_x="12px"
-        android:layout_y="361px"
-        />
-    <Button
-        android:layout_width="188px"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        android:layout_x="110px"
-        android:layout_y="361px"
-        />
-	</AbsoluteLayout>
-	-->
 </LinearLayout>
