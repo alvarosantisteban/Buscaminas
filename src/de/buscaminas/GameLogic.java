@@ -28,6 +28,30 @@ public class GameLogic { // LOGIC
 		}
 	}
 	
+	/*
+	public void unveilQuadrant(Quadrant q, int row, int col){
+		for(int x=row-1; x<=row+1; x++){
+			for(int y=col-1; y<=col+1; y++){
+				if (!isOut(x,y) && q.state == UNTOUCHED){
+					if(hueco && !ha sido visitado){
+						unveilQuadrant(q, x, y);
+					}else{
+						DESCUBRIR -> Pintar;
+					}
+				}
+			}
+		}
+	}
+	*/
+	
+	public boolean isOut(int x, int y){
+		if(x<0 || x>=nrRows || y<0 || y>=nrRows){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
 	public void setNumbers(){
     	for (int row = 0; row < nrRows; row++ ){
         	for (int col = 0; col < nrRows; col++ ){
@@ -36,7 +60,7 @@ public class GameLogic { // LOGIC
         			//Check all the quadrants around this position
         			for(int x=row-1; x<=row+1; x++){
         				for(int y=col-1; y<=col+1; y++){
-        					if(x<0 || x>=nrRows || y<0 || y>=nrRows || this.quads[x][y].mineOnQuad){
+        					if(isOut(x,y) || this.quads[x][y].mineOnQuad){
         						//Out of at least one border or there is a bomb
         						//Don't do anything
         					}else{
