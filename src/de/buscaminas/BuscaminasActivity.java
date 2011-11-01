@@ -13,17 +13,54 @@ import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
-public class BuscaminasActivity extends Activity { //GUI
+/**
+ * Contains the Android Graphical User Interface
+ * 
+ * @author Christopher Büttner
+ * @author Alvaro Santisteban
+ * @version 1
+ * 
+ */
+public class BuscaminasActivity extends Activity { 
+	/**
+	 * NO SE LO QUE HACE
+	 */
 	static final private int INT_REQ_GAME_OPTIONS = 0;
-	
+	/**
+	 * Android's EditText to visualize the results of the actions
+	 */
 	EditText ourText;
+	/**
+	 * Number of columns
+	 */
 	int nrRows;
+	/**
+	 * Android's TableLayout that contains the array of TableRow "tableRows"
+	 */
 	TableLayout tl;
+	/**
+	 * An array of Android's TableRow
+	 */
 	TableRow tableRows[];
+	/**
+	 * An array of QuadrantButton
+	 */
 	QuadrantButton mineField[][];
+	/**
+	 * The logic of the game
+	 */
 	GameLogic game;
+	/**
+	 * Listener of the user's clicks on the buttons
+	 */
 	OnClickListener fieldListener;
 	
+	/**
+	 * 
+	 * Creates the Android elements for the Buscaminas and respond to the user clicks
+	 * 
+	 * @param savedInstanceState Bundle object
+	 */
     public void onCreate(Bundle savedInstanceState) {
     	nrRows = 7;
         super.onCreate(savedInstanceState);
@@ -49,11 +86,23 @@ public class BuscaminasActivity extends Activity { //GUI
         create_new_game( nrRows );
     }
     
+    /**
+     * Creates a new game
+     * 
+     * @param target corresponding View
+     */
     public void newGameClick(View target){
 		Intent gameOptionsInt = new Intent(this, de.buscaminas.MineFieldOptionsActivity.class);
 		startActivityForResult( gameOptionsInt, INT_REQ_GAME_OPTIONS );
     }
     
+    /**
+     * Creates the screen where the new game is configured
+     * 
+     * @param requestCode the requested code
+     * @param resultCode the code for the result of the creation of the Intent
+     * @param data the Intent itself
+     */
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
     	switch (requestCode) {
     		case (INT_REQ_GAME_OPTIONS):
@@ -70,17 +119,30 @@ public class BuscaminasActivity extends Activity { //GUI
     	}
     }
     
+    /**
+	 * Creates a new game
+	 * 
+	 * Creates a new game by initializing all its variables or calling to the corresponding method
+	 * 
+	 * @param nrRows number of rows for the Buscaminas
+	 */
     private void create_new_game( int nrRows ){
         game = new GameLogic(nrRows);
         tableRows = new TableRow[nrRows];
         mineField = new QuadrantButton[nrRows][nrRows];
         new Button(this);
-        setupMineFileButtons();
+        setupMineFieldButtons();
         game.setNumbers();
         updateMineFieldView();
     }
     
-    public void setupMineFileButtons(){
+    /**
+	 * Creates and setups the buttons of the Buscaminas
+	 * 
+	 * Removes the previous Views, creates the TableRows and fill them with the QuadrantButtons, which are located in its corresponding array.
+	 * Finally, setups a ClickListener to each button.
+	 */
+    public void setupMineFieldButtons(){
     	tl.removeAllViews();
     	for (int row = 0; row < nrRows; row++ ){ //It's Dynamically setup
         	this.tableRows[row] = new TableRow(this);
@@ -93,6 +155,18 @@ public class BuscaminasActivity extends Activity { //GUI
         }
     }    
     
+    /**
+     * 
+     * Updates the Quadrant
+     * 
+	 * Updates the color of the text of each field according to the following possible situations of the quadrant:
+	 * Black = Quadrant untouched
+	 * Blue = Quadrant discovered (may have a number or nothing on it)
+	 * Red = Quadrant with a bomb
+	 * Green = Quadrant marked
+	 * 
+	 *  In previous versions of the Buscaminas, due to debugging, this method printed also the position of the bombs so the user could see them
+	 */
     public void updateMineFieldView(){
     	System.out.println("En viewNumbers");
     	for (int row = 0; row < nrRows; row++ ){
