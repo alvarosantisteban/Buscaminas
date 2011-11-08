@@ -26,9 +26,13 @@ public class GameLogic {
 	 */
 	Quadrant quads[][];
 	/**
-	 * Controls if the game has ended: true if it has ended
+	 * Controls if the game has ended because the user failed
 	 */
-	boolean gameOver;
+	boolean gameOverLost;
+	/**
+	 * Controls if the game has ended because the user won
+	 */
+	boolean gameOverWin;
 	/**
 	 * Creates a random number
 	 */
@@ -40,7 +44,8 @@ public class GameLogic {
 	 * Initializes the variables, creates the array of Quadrants and, randomly, distributes the mines on it.
 	 */
 	public GameLogic(int rows){
-		this.gameOver = false;
+		this.gameOverLost = false;
+		this.gameOverWin = false;
 		this.nrRows = rows;
 		this.nrMines = (rows * rows) / 8;
 		this.quads = new Quadrant[rows][rows];
@@ -132,34 +137,57 @@ public class GameLogic {
 	}
 	
 	/**
+	 * Checks if all the Quadrants without a bomb were discovered, in which case, the user won
+	 * 
+	 * @return true if the user won
+	 */
+	public boolean hasWon(){
+		// initializes the explore state for all quadrants
+		Quadrant q;
+		for (int row = 0; row < nrRows; row++){
+			for (int col = 0; col < nrRows; col++){
+				q = quads[row][col];
+				if(!q.mineOnQuad){
+					if(q.state == ViewState.UNTOUCHED){//didn't win yet
+						return gameOverWin;
+					}
+				}
+			}
+		}
+		gameOverWin = true;
+		return gameOverWin;
+	}
+	
+	/**
 	 * Controls if the clicked given Quadrant contains a bomb. 
 	 * If that is so, the game ends. 
 	 * If not, initializes the "explore state" for all quadrants and calls the recursive method explore_rec
 	 * 
 	 * @param quadrant the clicked Quadrant 
+	 * @return true if the given Quadrant contains a bomb
 	 * @see explore_rec
 	 */
-	public void explore( Quadrant quadrant ){
+	public boolean explore( Quadrant quadrant ){
 		//Controls if the clicked given Quadrant contains a bomb. 
 		if ( quadrant.mineOnQuad ){
-			gameOver = true;
+			gameOverLost = true;
 			for (int row = 0; row < nrRows; row++){
 				for (int col = 0; col < nrRows; col++){
 					quads[row][col].state = ViewState.BOMBED;
 				}
 			}
-			return;
-		}
+		}else{
 		
-		// initializes the explore state for all quadrants
-		for (int row = 0; row < nrRows; row++){
-			for (int col = 0; col < nrRows; col++){
-				quads[row][col].rec_explore_state = false;
+			// initializes the explore state for all quadrants
+			for (int row = 0; row < nrRows; row++){
+				for (int col = 0; col < nrRows; col++){
+					quads[row][col].rec_explore_state = false;
+				}
 			}
+			
+			explore_rec( quadrant );
 		}
-		
-		explore_rec( quadrant );
-		
+		return gameOverLost;
 	}
 	
 	/**

@@ -78,8 +78,13 @@ public class BuscaminasActivity extends Activity {
 				}else{
 					ourText.setText("NO MINE");
 				}
-				game.explore(b.quadrant);
+				if (game.explore(b.quadrant)){
+					ourText.setText("GAME OVER, LOSER");
+				}
 				updateMineFieldView();
+				if(game.hasWon() && !game.gameOverLost){
+					ourText.setText("YOU JUST WON");
+				}
 			}
         };
         
@@ -130,7 +135,7 @@ public class BuscaminasActivity extends Activity {
         game = new GameLogic(nrRows);
         tableRows = new TableRow[nrRows];
         mineField = new QuadrantButton[nrRows][nrRows];
-        new Button(this);
+        new Button(this); // NO LO ENTIENDO
         setupMineFieldButtons();
         game.setNumbers();
         updateMineFieldView();
