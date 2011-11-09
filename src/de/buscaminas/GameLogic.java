@@ -22,6 +22,14 @@ public class GameLogic {
 	 */
 	int nrMines;
 	/**
+	 * Number of fields marked
+	 */
+	int nrMarked;
+	/**
+	 * Number of mines marked
+	 */
+	int nrMinesMarked;
+	/**
 	 * Array with all the Quadrants that compose the Buscaminas
 	 */
 	Quadrant quads[][];
@@ -48,6 +56,7 @@ public class GameLogic {
 		this.gameOverWin = false;
 		this.nrRows = rows;
 		this.nrMines = (rows * rows) / 8;
+		this.nrMarked = 0;
 		this.quads = new Quadrant[rows][rows];
 		for (int row = 0; row < rows; row++){
 			for (int col = 0; col < rows; col++){
@@ -137,24 +146,30 @@ public class GameLogic {
 	}
 	
 	/**
-	 * Checks if all the Quadrants without a bomb were discovered, in which case, the user won
+	 * Checks if the user won.
+	 * 
+	 * First, check if all bombs were marked, in which case, the user won. 
+	 * If not, checks if the Quadrants without a bomb were discovered, in which case, the user also won.
 	 * 
 	 * @return true if the user won
 	 */
 	public boolean hasWon(){
-		// initializes the explore state for all quadrants
-		Quadrant q;
-		for (int row = 0; row < nrRows; row++){
-			for (int col = 0; col < nrRows; col++){
-				q = quads[row][col];
-				if(!q.mineOnQuad){
-					if(q.state == ViewState.UNTOUCHED){//didn't win yet
-						return gameOverWin;
+		if(nrMinesMarked == nrMines){
+			gameOverWin = true;
+		}else{
+			Quadrant q;
+			for (int row = 0; row < nrRows; row++){
+				for (int col = 0; col < nrRows; col++){
+					q = quads[row][col];
+					if(!q.mineOnQuad){
+						if(q.state == ViewState.UNTOUCHED){//didn't win yet
+							return gameOverWin;
+						}
 					}
 				}
 			}
+			gameOverWin = true;		
 		}
-		gameOverWin = true;
 		return gameOverWin;
 	}
 	
@@ -232,5 +247,32 @@ public class GameLogic {
 		if ( ( row < nrRows - 1 ) && ( col > 0 ) )
 			explore_rec( quads[row + 1][col - 1]);
 		
+	}
+	
+	/**
+	 * Increases the number of fields marked
+	 */
+	public void increaseMarked(){
+		nrMarked++;
+	}
+	
+	/**
+	 * Decreases the number of fields marked
+	 */
+	public void decreaseMarked(){
+		nrMarked--;
+	}
+	/**
+	 * Increases the number of mines marked
+	 */
+	public void increaseMinesMarked(){
+		nrMinesMarked++;
+	}
+	
+	/**
+	 * Decreases the number of mines marked
+	 */
+	public void decreaseMinesMarked(){
+		nrMinesMarked--;
 	}
 }

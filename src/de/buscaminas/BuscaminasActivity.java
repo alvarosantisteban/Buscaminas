@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TableLayout;
@@ -54,6 +55,10 @@ public class BuscaminasActivity extends Activity {
 	 * Listener of the user's clicks on the buttons
 	 */
 	OnClickListener fieldListener;
+	/**
+	 * Listener of the user's long clicks on the buttons which are use to mark the bombs
+	 */
+	OnLongClickListener longFieldListener;
 	
 	/**
 	 * 
@@ -87,6 +92,44 @@ public class BuscaminasActivity extends Activity {
 				}
 			}
         };
+        
+        longFieldListener = new OnLongClickListener(){
+        	//Hay que controlar que no se puedan poner más banderitas que nrMines
+        	//Hay que controlar que si, por error se marca un numero, al descubrirlo con el metodo de adyacentes, se descuente uno
+			public boolean onLongClick(View arg0) {
+				QuadrantButton b = (QuadrantButton)arg0;
+				if(b.quadrant.mineOnQuad && b.quadrant.state == ViewState.UNTOUCHED){
+					System.out.println("1");
+					game.increaseMinesMarked();
+					b.quadrant.state = ViewState.MARKED;
+				}else if(b.quadrant.mineOnQuad && b.quadrant.state == ViewState.MARKED){//hay mina y habia algo puesto
+					System.out.println("2");
+					game.decreaseMinesMarked();
+					b.quadrant.state = ViewState.UNTOUCHED;
+				}else if(!b.quadrant.mineOnQuad && b.quadrant.state == ViewState.UNTOUCHED){//no hay mina y no habia nada puesto
+					System.out.println("3");
+					game.increaseMarked();
+					b.quadrant.state = ViewState.MARKED;
+				}else if(!b.quadrant.mineOnQuad && b.quadrant.state == ViewState.MARKED){//no hay mina y habia algo puesto
+					System.out.println("4");
+					game.decreaseMarked();
+					b.quadrant.state = ViewState.UNTOUCHED;
+				}else{ //estaba descubierto, Error
+					
+					System.out.println("5");
+					//por ahora nada
+				}
+				updateMineFieldView();
+				if(game.hasWon() && !game.gameOverLost){
+					ourText.setText("YOU JUST WON");
+				}else{
+					ourText.setText("You just marked a possible mine");	
+				}
+				return true; //We are controlling it
+			}
+        	
+        };
+        
         
         create_new_game( nrRows );
     }
@@ -156,6 +199,7 @@ public class BuscaminasActivity extends Activity {
         		mineField[row][col] = new QuadrantButton(this, this.game.quads[row][col]);
         		this.tableRows[row].addView(mineField[row][col]);
         		this.mineField[row][col].setOnClickListener(fieldListener);
+        		this.mineField[row][col].setOnLongClickListener(longFieldListener);
         	}
         }
     }    
