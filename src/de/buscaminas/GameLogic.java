@@ -215,6 +215,9 @@ public class GameLogic {
 		if (quadrant.rec_explore_state)
 			return;
 		quadrant.rec_explore_state = true;
+		if(quadrant.state == ViewState.MARKED){
+			decreaseMarked();
+		}
 		quadrant.state = ViewState.DISCOVERED;
 
 		if ( quadrant.nrAdjacentMines > 0 )
@@ -262,6 +265,12 @@ public class GameLogic {
 	public void decreaseMarked(){
 		nrMarked--;
 	}
+	
+	public String getRemainingMarks(){
+		int i = nrMines-nrMarked;
+		return new String(Integer.toString(i));
+	}
+	
 	/**
 	 * Increases the number of mines marked
 	 */

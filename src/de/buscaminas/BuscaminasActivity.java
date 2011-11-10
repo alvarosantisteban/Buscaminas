@@ -96,11 +96,11 @@ public class BuscaminasActivity extends Activity {
 				if(game.hasWon() && !game.gameOverLost){
 					ourText.setText("YOU JUST WON");
 				}
+				tv.setText("Number of remaining marks: " +game.getRemainingMarks());
 			}
         };
         
         longFieldListener = new OnLongClickListener(){
-        	//Hay que controlar que si, por error se marca un numero, al descubrirlo con el metodo de adyacentes, se descuente uno
 			public boolean onLongClick(View arg0) {
 				
 				QuadrantButton b = (QuadrantButton)arg0;
@@ -108,6 +108,7 @@ public class BuscaminasActivity extends Activity {
 				if(b.quadrant.mineOnQuad && b.quadrant.state == ViewState.UNTOUCHED && game.nrMarked < game.nrMines){//mine and nothing on it
 					System.out.println("Mine marked");
 					game.increaseMinesMarked();
+					game.increaseMarked();
 					b.quadrant.state = ViewState.MARKED;
 				}else if(!b.quadrant.mineOnQuad && b.quadrant.state == ViewState.UNTOUCHED && game.nrMarked < game.nrMines){//no mine and nothing on it
 					System.out.println("Number marked");
@@ -116,6 +117,7 @@ public class BuscaminasActivity extends Activity {
 				}else if(b.quadrant.mineOnQuad && b.quadrant.state == ViewState.MARKED){//mine and something on it
 					System.out.println("Mine unmarked");
 					game.decreaseMinesMarked();
+					game.decreaseMarked();
 					b.quadrant.state = ViewState.UNTOUCHED;
 				}else if(!b.quadrant.mineOnQuad && b.quadrant.state == ViewState.MARKED){//no mine and somthing on it
 					System.out.println("Number unmarked");
@@ -130,13 +132,12 @@ public class BuscaminasActivity extends Activity {
 				}else{
 					ourText.setText("You just marked a possible mine");	
 				}
-				return true; //We are controlling it
+				tv.setText("Number of remaining marks: " +game.getRemainingMarks());
+				return true; //We are controlling the long click
 			}
         	
         };
-        
         create_new_game( nrRows );
-        tv.setText("Number of marks set: " +game.nrMarked);
     }
     
     /**
@@ -187,6 +188,7 @@ public class BuscaminasActivity extends Activity {
         setupMineFieldButtons();
         game.setNumbers();
         updateMineFieldView();
+        tv.setText("Number of remaining marks: " +game.getRemainingMarks());
     }
     
     /**
