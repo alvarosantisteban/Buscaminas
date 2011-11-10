@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
 
 /**
  * Contains the Android Graphical User Interface
@@ -39,6 +40,10 @@ public class BuscaminasActivity extends Activity {
 	 * Android's TableLayout that contains the array of TableRow "tableRows"
 	 */
 	TableLayout tl;
+	/**
+	 * Anroid's TextView to show the number of remaining marks
+	 */
+	TextView tv;
 	/**
 	 * An array of Android's TableRow
 	 */
@@ -73,6 +78,7 @@ public class BuscaminasActivity extends Activity {
        
         ourText = (EditText)findViewById(R.id.editText1);
         tl = (TableLayout)findViewById(R.id.tableLayout1);
+        tv =(TextView)findViewById(R.id.nrMarked);
         
         fieldListener = new OnClickListener(){
         	
@@ -94,30 +100,29 @@ public class BuscaminasActivity extends Activity {
         };
         
         longFieldListener = new OnLongClickListener(){
-        	//Hay que controlar que no se puedan poner más banderitas que nrMines
         	//Hay que controlar que si, por error se marca un numero, al descubrirlo con el metodo de adyacentes, se descuente uno
 			public boolean onLongClick(View arg0) {
+				
 				QuadrantButton b = (QuadrantButton)arg0;
-				if(b.quadrant.mineOnQuad && b.quadrant.state == ViewState.UNTOUCHED){
-					System.out.println("1");
+				
+				if(b.quadrant.mineOnQuad && b.quadrant.state == ViewState.UNTOUCHED && game.nrMarked < game.nrMines){//mine and nothing on it
+					System.out.println("Mine marked");
 					game.increaseMinesMarked();
 					b.quadrant.state = ViewState.MARKED;
-				}else if(b.quadrant.mineOnQuad && b.quadrant.state == ViewState.MARKED){//hay mina y habia algo puesto
-					System.out.println("2");
-					game.decreaseMinesMarked();
-					b.quadrant.state = ViewState.UNTOUCHED;
-				}else if(!b.quadrant.mineOnQuad && b.quadrant.state == ViewState.UNTOUCHED){//no hay mina y no habia nada puesto
-					System.out.println("3");
+				}else if(!b.quadrant.mineOnQuad && b.quadrant.state == ViewState.UNTOUCHED && game.nrMarked < game.nrMines){//no mine and nothing on it
+					System.out.println("Number marked");
 					game.increaseMarked();
 					b.quadrant.state = ViewState.MARKED;
-				}else if(!b.quadrant.mineOnQuad && b.quadrant.state == ViewState.MARKED){//no hay mina y habia algo puesto
-					System.out.println("4");
+				}else if(b.quadrant.mineOnQuad && b.quadrant.state == ViewState.MARKED){//mine and something on it
+					System.out.println("Mine unmarked");
+					game.decreaseMinesMarked();
+					b.quadrant.state = ViewState.UNTOUCHED;
+				}else if(!b.quadrant.mineOnQuad && b.quadrant.state == ViewState.MARKED){//no mine and somthing on it
+					System.out.println("Number unmarked");
 					game.decreaseMarked();
 					b.quadrant.state = ViewState.UNTOUCHED;
-				}else{ //estaba descubierto, Error
-					
-					System.out.println("5");
-					//por ahora nada
+				}else{
+					ourText.setText("Action not possible");
 				}
 				updateMineFieldView();
 				if(game.hasWon() && !game.gameOverLost){
@@ -130,8 +135,8 @@ public class BuscaminasActivity extends Activity {
         	
         };
         
-        
         create_new_game( nrRows );
+        tv.setText("Number of marks set: " +game.nrMarked);
     }
     
     /**
@@ -217,7 +222,6 @@ public class BuscaminasActivity extends Activity {
 	 *  In previous versions of the Buscaminas, due to debugging, this method printed also the position of the bombs so the user could see them
 	 */
     public void updateMineFieldView(){
-    	System.out.println("En viewNumbers");
     	for (int row = 0; row < nrRows; row++ ){
         	for (int col = 0; col < nrRows; col++ ){
         		QuadrantButton curr_field = mineField[row][col];
