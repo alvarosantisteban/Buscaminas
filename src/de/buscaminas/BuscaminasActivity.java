@@ -2,7 +2,9 @@ package de.buscaminas;
 
 import de.buscaminas.R.layout;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -65,6 +67,14 @@ public class BuscaminasActivity extends Activity {
 	 * Listener of the user's long clicks on the buttons which are use to mark the bombs
 	 */
 	OnLongClickListener longFieldListener;
+	/**
+	 * Builder from the alert dialog
+	 */
+	AlertDialog.Builder builder;
+	/**
+	 * Alert dialog to control the end of a game
+	 */
+	AlertDialog alert;
 	
 	/**
 	 * 
@@ -81,6 +91,30 @@ public class BuscaminasActivity extends Activity {
         tl = (TableLayout)findViewById(R.id.tableLayout1);
         tv =(TextView)findViewById(R.id.nrMarked);
         
+        builder = new AlertDialog.Builder(this);
+        builder.setMessage("Do you want to play again?");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+			
+			public void onClick(DialogInterface dialog, int which) {
+				create_new_game( nrRows );
+				ourText.setText("");
+				Toast.makeText(getApplicationContext(), "Good luck!", Toast.LENGTH_SHORT).show();
+				
+			}
+		});
+        
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+			
+			public void onClick(DialogInterface dialog, int which) {
+				Toast.makeText(getApplicationContext(), "Hope you had fun", Toast.LENGTH_SHORT).show();
+				dialog.cancel();
+				System.exit(RESULT_OK);
+			}
+		});
+        
+        alert = builder.create();
+        
         fieldListener = new OnClickListener(){
         	
 			public void onClick(View arg0) {
@@ -91,13 +125,13 @@ public class BuscaminasActivity extends Activity {
 					ourText.setText("NO MINE");
 				}
 				if (game.explore(b.quadrant)){
-					ourText.setText("GAME OVER, LOSER");
 					Toast.makeText(getApplicationContext(), "GAME OVER, LOSER", Toast.LENGTH_SHORT).show();
+					alert.show();
 				}
 				updateMineFieldView();
 				if(game.hasWon() && !game.gameOverLost){
-					ourText.setText("YOU JUST WON");
 					Toast.makeText(getApplicationContext(), "WINNING!", Toast.LENGTH_SHORT).show();
+					alert.show();
 				}
 				tv.setText("Number of remaining marks: " +game.getRemainingMarks());
 			}
@@ -131,8 +165,8 @@ public class BuscaminasActivity extends Activity {
 				}
 				updateMineFieldView();
 				if(game.hasWon() && !game.gameOverLost){
-					ourText.setText("YOU JUST WON");
 					Toast.makeText(getApplicationContext(), "WINNING!", Toast.LENGTH_SHORT).show();
+					alert.show();
 				}else{
 					ourText.setText("You just marked a possible mine");	
 				}
