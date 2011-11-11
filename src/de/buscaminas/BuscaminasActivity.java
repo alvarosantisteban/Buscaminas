@@ -14,9 +14,10 @@ import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
- * Contains the Android Graphical User Interface
+ * Contains the Android Graphical User Interface (Lo siguiente que puedo hacer, es hacer que despues de ganar o perder te de la oportunidad de empezar de nuevo y reinicio todo
  * 
  * @author Christopher Büttner
  * @author Alvaro Santisteban
@@ -91,10 +92,12 @@ public class BuscaminasActivity extends Activity {
 				}
 				if (game.explore(b.quadrant)){
 					ourText.setText("GAME OVER, LOSER");
+					Toast.makeText(getApplicationContext(), "GAME OVER, LOSER", Toast.LENGTH_SHORT).show();
 				}
 				updateMineFieldView();
 				if(game.hasWon() && !game.gameOverLost){
 					ourText.setText("YOU JUST WON");
+					Toast.makeText(getApplicationContext(), "WINNING!", Toast.LENGTH_SHORT).show();
 				}
 				tv.setText("Number of remaining marks: " +game.getRemainingMarks());
 			}
@@ -129,6 +132,7 @@ public class BuscaminasActivity extends Activity {
 				updateMineFieldView();
 				if(game.hasWon() && !game.gameOverLost){
 					ourText.setText("YOU JUST WON");
+					Toast.makeText(getApplicationContext(), "WINNING!", Toast.LENGTH_SHORT).show();
 				}else{
 					ourText.setText("You just marked a possible mine");	
 				}

@@ -8,7 +8,7 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 
 /**
- * Creates the screen to set the options for a game
+ * Creates the GUI to set the options for a game
  * 
  * @author Christopher Büttner
  * @author Alvaro Santisteban
@@ -39,7 +39,7 @@ public class MineFieldOptionsActivity extends Activity implements SeekBar.OnSeek
 	/**
 	 * Number of mines of the game
 	 */
-	int mines = 9;
+	int mines = 6;
 	/**
 	 * EditText for the number of rows
 	 */
