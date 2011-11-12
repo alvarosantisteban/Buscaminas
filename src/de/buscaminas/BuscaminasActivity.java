@@ -1,25 +1,27 @@
 package de.buscaminas;
 
-import de.buscaminas.R.layout;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * Contains the Android Graphical User Interface (Lo siguiente que puedo hacer, es hacer que despues de ganar o perder te de la oportunidad de empezar de nuevo y reinicio todo
+ * Contains the Android Graphical User Interface 
  * 
  * @author Christopher Büttner
  * @author Alvaro Santisteban
@@ -72,7 +74,7 @@ public class BuscaminasActivity extends Activity {
 	 */
 	AlertDialog.Builder builder;
 	/**
-	 * Alert dialog to control the end of a game
+	 * Alert dialog to control the end of a game and give the opportunity to play again
 	 */
 	AlertDialog alert;
 	
@@ -91,6 +93,7 @@ public class BuscaminasActivity extends Activity {
         tl = (TableLayout)findViewById(R.id.tableLayout1);
         tv =(TextView)findViewById(R.id.nrMarked);
         
+        // Control of the end dialog
         builder = new AlertDialog.Builder(this);
         builder.setMessage("Do you want to play again?");
         builder.setCancelable(false);
@@ -115,6 +118,7 @@ public class BuscaminasActivity extends Activity {
         
         alert = builder.create();
         
+        // Control of the user's click
         fieldListener = new OnClickListener(){
         	
 			public void onClick(View arg0) {
@@ -137,6 +141,7 @@ public class BuscaminasActivity extends Activity {
 			}
         };
         
+        //Control of the user's long click
         longFieldListener = new OnLongClickListener(){
 			public boolean onLongClick(View arg0) {
 				
@@ -168,7 +173,7 @@ public class BuscaminasActivity extends Activity {
 					Toast.makeText(getApplicationContext(), "WINNING!", Toast.LENGTH_SHORT).show();
 					alert.show();
 				}else{
-					ourText.setText("You just marked a possible mine");	
+					ourText.setText("You just set a mark");	
 				}
 				tv.setText("Number of remaining marks: " +game.getRemainingMarks());
 				return true; //We are controlling the long click
@@ -179,7 +184,7 @@ public class BuscaminasActivity extends Activity {
     }
     
     /**
-     * Creates a new game
+     * Creates the intent to create a new game
      * 
      * @param target corresponding View
      */
@@ -237,11 +242,13 @@ public class BuscaminasActivity extends Activity {
 	 */
     public void setupMineFieldButtons(){
     	tl.removeAllViews();
-    	for (int row = 0; row < nrRows; row++ ){ //It's Dynamically setup
+    	AttributeSet as = null;
+    	for (int row = 0; row < nrRows; row++ ){ 
         	this.tableRows[row] = new TableRow(this);
         	tl.addView( this.tableRows[row] );
         	for (int col = 0; col < nrRows; col++ ){
-        		mineField[row][col] = new QuadrantButton(this, this.game.quads[row][col]);
+        		//mineField[row][col] = new QuadrantButton(this, this.game.quads[row][col]);
+        		mineField[row][col] = new QuadrantButton(this, this.game.quads[row][col], as);
         		this.tableRows[row].addView(mineField[row][col]);
         		this.mineField[row][col].setOnClickListener(fieldListener);
         		this.mineField[row][col].setOnLongClickListener(longFieldListener);
@@ -251,9 +258,9 @@ public class BuscaminasActivity extends Activity {
     
     /**
      * 
-     * Updates the Quadrant
+     * Updates the all the Quadrants
      * 
-	 * Updates the color of the text of each field according to the following possible situations of the quadrant:
+	 * Updates the situation and color of each field according to the following possible situations of the quadrant:
 	 * Black = Quadrant untouched
 	 * Blue = Quadrant discovered (may have a number or nothing on it)
 	 * Red = Quadrant with a bomb
@@ -266,15 +273,18 @@ public class BuscaminasActivity extends Activity {
         	for (int col = 0; col < nrRows; col++ ){
         		QuadrantButton curr_field = mineField[row][col];
         		
-        		// show debug text
-        		if (curr_field.quadrant.nrAdjacentMines > 0){
-        			curr_field.setText(String.valueOf((curr_field.quadrant.nrAdjacentMines)));
-        		} 
-        		else if (curr_field.quadrant.mineOnQuad){
-        			curr_field.setText("x");
-        		} 
-        		else {
-        			curr_field.setText("o");
+        		if(curr_field.quadrant.state == ViewState.DISCOVERED || curr_field.quadrant.state == ViewState.BOMBED){
+	        		if (curr_field.quadrant.nrAdjacentMines > 0){
+	        			curr_field.setText(String.valueOf((curr_field.quadrant.nrAdjacentMines)));
+	        		} 
+	        		else if (curr_field.quadrant.mineOnQuad){
+	        			curr_field.setText("x");
+	        		} 
+	        		else {
+	        			curr_field.setText("o");
+	        		}
+        		}else if (curr_field.quadrant.state == ViewState.MARKED){
+        			curr_field.setText("M");
         		}
         		
         		// show state (button-color)

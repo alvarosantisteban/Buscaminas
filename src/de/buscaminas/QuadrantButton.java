@@ -1,6 +1,7 @@
 package de.buscaminas;
 
 import android.content.Context;
+import android.util.AttributeSet;
 import android.widget.Button;
 
 /**
@@ -27,5 +28,12 @@ public class QuadrantButton extends Button {
 	public QuadrantButton( Context context, Quadrant quadrant ){
 		super(context);
 		this.quadrant = quadrant;
+		
 	}
+	
+	public QuadrantButton(Context context, Quadrant quadrant, AttributeSet as){
+		super(context, as);
+		this.quadrant = quadrant;
+	}
+
 }
