@@ -50,12 +50,15 @@ public class GameLogic {
 	 * Constructor for the class. 
 	 * 
 	 * Initializes the variables, creates the array of Quadrants and, randomly, distributes the mines on it.
+	 * 
+	 * @param rows number of rows and columns of the game
+	 * @param mines number of mines of the game
 	 */
-	public GameLogic(int rows){
+	public GameLogic(int rows, int mines){
 		this.gameOverLost = false;
 		this.gameOverWin = false;
 		this.nrRows = rows;
-		this.nrMines = (rows * rows) / 8;
+		this.nrMines = mines;
 		this.nrMarked = 0;
 		this.quads = new Quadrant[rows][rows];
 		for (int row = 0; row < rows; row++){

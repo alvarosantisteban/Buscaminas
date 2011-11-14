@@ -42,6 +42,10 @@ public class BuscaminasActivity extends Activity {
 	 */
 	int nrRows;
 	/**
+	 * Number of mines
+	 */
+	int nrMines;
+	/**
 	 * Android's TableLayout that contains the array of TableRow "tableRows"
 	 */
 	TableLayout tl;
@@ -80,12 +84,13 @@ public class BuscaminasActivity extends Activity {
 	
 	/**
 	 * 
-	 * Creates the Android elements for the Buscaminas and respond to the user clicks
+	 * Creates the Android elements for the Buscaminas, respond to the user clicks and shoots the dialog in case the game ends
 	 * 
 	 * @param savedInstanceState Bundle object
 	 */
     public void onCreate(Bundle savedInstanceState) {
     	nrRows = 7;
+    	nrMines = (nrRows * nrRows) / 8;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
        
@@ -100,7 +105,7 @@ public class BuscaminasActivity extends Activity {
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 			
 			public void onClick(DialogInterface dialog, int which) {
-				create_new_game( nrRows );
+				create_new_game(nrRows, nrMines);
 				ourText.setText("");
 				Toast.makeText(getApplicationContext(), "Good luck!", Toast.LENGTH_SHORT).show();
 				
@@ -180,11 +185,11 @@ public class BuscaminasActivity extends Activity {
 			}
         	
         };
-        create_new_game( nrRows );
+        create_new_game( nrRows, nrMines );
     }
     
     /**
-     * Creates the intent to create a new game
+     * Creates the intent to create a new game in another screen
      * 
      * @param target corresponding View
      */
@@ -205,8 +210,9 @@ public class BuscaminasActivity extends Activity {
     		case (INT_REQ_GAME_OPTIONS):
     			if ( resultCode == RESULT_OK ){
     				this.nrRows = data.getExtras().getInt("rows"); 
+    				this.nrMines = data.getExtras().getInt("mines"); 
     				ourText.setText("new game " + String.valueOf(nrRows));
-    				create_new_game( nrRows );
+    				create_new_game( nrRows, nrMines );
     			} else { 
     				System.out.println("no valid game options replied");
     			}
@@ -223,10 +229,11 @@ public class BuscaminasActivity extends Activity {
 	 * 
 	 * @param nrRows number of rows for the Buscaminas
 	 */
-    private void create_new_game( int nrRows ){
-        game = new GameLogic(nrRows);
+    private void create_new_game( int nrRows, int nrMines ){
+        game = new GameLogic(nrRows, nrMines);
         tableRows = new TableRow[nrRows];
         mineField = new QuadrantButton[nrRows][nrRows];
+        System.out.println("minas = " +game.nrMines);
         new Button(this); // NO LO ENTIENDO
         setupMineFieldButtons();
         game.setNumbers();
