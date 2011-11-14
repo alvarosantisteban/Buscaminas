@@ -42,7 +42,7 @@
         </TableRow>
         <TextView 
         	android:id="@+id/txtViewNumberOfBombs" 
-        	android:text="Number of Bombs (ignored)" 
+        	android:text="Number of Bombs" 
 	    	android:layout_marginTop="50px" 
 	    	android:layout_marginBottom="20px" 
         	android:textAppearance="?android:attr/textAppearanceLarge" 
