@@ -4,17 +4,16 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -93,6 +92,9 @@ public class BuscaminasActivity extends Activity {
     	nrMines = (nrRows * nrRows) / 8;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        Resources res = getResources();
+		Drawable myDrawableDiscovered = res.getDrawable(R.drawable.discoveredd);
+		System.out.println( "DrawableMain:" +myDrawableDiscovered );
        
         ourText = (EditText)findViewById(R.id.editText1);
         tl = (TableLayout)findViewById(R.id.tableLayout1);
@@ -233,8 +235,6 @@ public class BuscaminasActivity extends Activity {
         game = new GameLogic(nrRows, nrMines);
         tableRows = new TableRow[nrRows];
         mineField = new QuadrantButton[nrRows][nrRows];
-        System.out.println("minas = " +game.nrMines);
-        new Button(this); // NO LO ENTIENDO
         setupMineFieldButtons();
         game.setNumbers();
         updateMineFieldView();
@@ -254,8 +254,9 @@ public class BuscaminasActivity extends Activity {
         	this.tableRows[row] = new TableRow(this);
         	tl.addView( this.tableRows[row] );
         	for (int col = 0; col < nrRows; col++ ){
-        		//mineField[row][col] = new QuadrantButton(this, this.game.quads[row][col]);
-        		mineField[row][col] = new QuadrantButton(this, this.game.quads[row][col], as);
+        		mineField[row][col] = new QuadrantButton(this, this.game.quads[row][col]);
+        		
+        		//mineField[row][col] = new QuadrantButton(this, this.game.quads[row][col], as);
         		this.tableRows[row].addView(mineField[row][col]);
         		this.mineField[row][col].setOnClickListener(fieldListener);
         		this.mineField[row][col].setOnLongClickListener(longFieldListener);

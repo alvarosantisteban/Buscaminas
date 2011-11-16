@@ -1,6 +1,8 @@
 package de.buscaminas;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.Button;
 
@@ -28,7 +30,7 @@ public class QuadrantButton extends Button {
 	public QuadrantButton( Context context, Quadrant quadrant ){
 		super(context);
 		this.quadrant = quadrant;
-		
+		setLook(context);
 	}
 	
 	public QuadrantButton(Context context, Quadrant quadrant, AttributeSet as){
@@ -36,4 +38,10 @@ public class QuadrantButton extends Button {
 		this.quadrant = quadrant;
 	}
 
+	public void setLook(Context context){
+		Resources res = context.getResources();
+		Drawable myDrawableDiscovered = res.getDrawable(R.drawable.discoveredd);
+		System.out.println( "Drawable:" +myDrawableDiscovered );
+		this.setBackgroundDrawable(myDrawableDiscovered);
+	}
 }
