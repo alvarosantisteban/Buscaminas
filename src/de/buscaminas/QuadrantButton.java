@@ -40,8 +40,7 @@ public class QuadrantButton extends Button {
 
 	public void setLook(Context context){
 		Resources res = context.getResources();
-		Drawable myDrawableDiscovered = res.getDrawable(R.drawable.discoveredd);
-		System.out.println( "Drawable:" +myDrawableDiscovered );
-		this.setBackgroundDrawable(myDrawableDiscovered);
+		Drawable myDrawableUndiscovered = res.getDrawable(R.drawable.undiscovered);
+		this.setBackgroundDrawable(myDrawableUndiscovered);
 	}
 }

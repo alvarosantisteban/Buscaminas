@@ -6,14 +6,6 @@
    		android:layout_height="wrap_content" 
     	android:layout_width="match_parent" 
     	android:id="@+id/linearLayout1">
-        <EditText 
-        	android:layout_height="wrap_content" 
-        	android:id="@+id/editText1" 
-        	android:layout_weight="1" 
-        	android:inputType="numberSigned" 
-        	android:layout_width="fill_parent" 
-        	android:width="150px">
-        </EditText>
         <Button 
         	android:layout_height="wrap_content" 
         	android:id="@+id/testbutton" 
@@ -28,8 +20,10 @@
 		android:id="@+id/nrMarked" 
     />
     <TableLayout 
-		android:layout_height="wrap_content" 
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:layout_gravity="center"
 		android:id="@+id/tableLayout1" 
-		android:layout_width="match_parent">
+		android:background="#A69999">
 	</TableLayout>
 </LinearLayout>

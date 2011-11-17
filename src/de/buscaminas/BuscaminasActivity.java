@@ -4,16 +4,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -32,10 +27,6 @@ public class BuscaminasActivity extends Activity {
 	 * NO SE LO QUE HACE
 	 */
 	static final private int INT_REQ_GAME_OPTIONS = 0;
-	/**
-	 * Android's EditText to visualize the results of the actions
-	 */
-	EditText ourText;
 	/**
 	 * Number of columns
 	 */
@@ -92,11 +83,7 @@ public class BuscaminasActivity extends Activity {
     	nrMines = (nrRows * nrRows) / 8;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        Resources res = getResources();
-		Drawable myDrawableDiscovered = res.getDrawable(R.drawable.discoveredd);
-		System.out.println( "DrawableMain:" +myDrawableDiscovered );
-       
-        ourText = (EditText)findViewById(R.id.editText1);
+
         tl = (TableLayout)findViewById(R.id.tableLayout1);
         tv =(TextView)findViewById(R.id.nrMarked);
         
@@ -108,7 +95,6 @@ public class BuscaminasActivity extends Activity {
 			
 			public void onClick(DialogInterface dialog, int which) {
 				create_new_game(nrRows, nrMines);
-				ourText.setText("");
 				Toast.makeText(getApplicationContext(), "Good luck!", Toast.LENGTH_SHORT).show();
 				
 			}
@@ -130,11 +116,6 @@ public class BuscaminasActivity extends Activity {
         	
 			public void onClick(View arg0) {
 				QuadrantButton b = (QuadrantButton)arg0;
-				if( b.quadrant.mineOnQuad ){
-					ourText.setText("MINE!");
-				}else{
-					ourText.setText("NO MINE");
-				}
 				if (game.explore(b.quadrant)){
 					Toast.makeText(getApplicationContext(), "GAME OVER, LOSER", Toast.LENGTH_SHORT).show();
 					alert.show();
@@ -172,15 +153,11 @@ public class BuscaminasActivity extends Activity {
 					System.out.println("Number unmarked");
 					game.decreaseMarked();
 					b.quadrant.state = ViewState.UNTOUCHED;
-				}else{
-					ourText.setText("Action not possible");
 				}
 				updateMineFieldView();
 				if(game.hasWon() && !game.gameOverLost){
 					Toast.makeText(getApplicationContext(), "WINNING!", Toast.LENGTH_SHORT).show();
 					alert.show();
-				}else{
-					ourText.setText("You just set a mark");	
 				}
 				tv.setText("Number of remaining marks: " +game.getRemainingMarks());
 				return true; //We are controlling the long click
@@ -213,7 +190,6 @@ public class BuscaminasActivity extends Activity {
     			if ( resultCode == RESULT_OK ){
     				this.nrRows = data.getExtras().getInt("rows"); 
     				this.nrMines = data.getExtras().getInt("mines"); 
-    				ourText.setText("new game " + String.valueOf(nrRows));
     				create_new_game( nrRows, nrMines );
     			} else { 
     				System.out.println("no valid game options replied");
@@ -249,14 +225,11 @@ public class BuscaminasActivity extends Activity {
 	 */
     public void setupMineFieldButtons(){
     	tl.removeAllViews();
-    	AttributeSet as = null;
     	for (int row = 0; row < nrRows; row++ ){ 
         	this.tableRows[row] = new TableRow(this);
         	tl.addView( this.tableRows[row] );
         	for (int col = 0; col < nrRows; col++ ){
         		mineField[row][col] = new QuadrantButton(this, this.game.quads[row][col]);
-        		
-        		//mineField[row][col] = new QuadrantButton(this, this.game.quads[row][col], as);
         		this.tableRows[row].addView(mineField[row][col]);
         		this.mineField[row][col].setOnClickListener(fieldListener);
         		this.mineField[row][col].setOnLongClickListener(longFieldListener);

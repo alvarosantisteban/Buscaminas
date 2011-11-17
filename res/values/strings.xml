@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, BuscaminasActivity!</string>
     <string name="app_name">Buscaminas</string>
-    <string name="buttonPlay">New Game</string>
+    <string name="buttonPlay">Set Options</string>
     <string name="second_activity_name">Game Options</string>
 </resources>
