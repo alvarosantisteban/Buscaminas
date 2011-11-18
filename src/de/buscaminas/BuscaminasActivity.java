@@ -6,9 +6,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
+import android.widget.Chronometer;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -71,6 +73,14 @@ public class BuscaminasActivity extends Activity {
 	 * Alert dialog to control the end of a game and give the opportunity to play again
 	 */
 	AlertDialog alert;
+	/**
+	 * Chronometer to control the number of seconds that lasted the game
+	 */
+	Chronometer chrono;
+	/**
+	 * Boolean to know if the chrono is running
+	 */
+	boolean chronoRunning;
 	
 	/**
 	 * 
@@ -81,8 +91,11 @@ public class BuscaminasActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
     	nrRows = 7;
     	nrMines = (nrRows * nrRows) / 8;
+    	chronoRunning = false;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        
+        chrono = (Chronometer)findViewById(R.id.chronometer1);
 
         tl = (TableLayout)findViewById(R.id.tableLayout1);
         tv =(TextView)findViewById(R.id.nrMarked);
@@ -115,51 +128,64 @@ public class BuscaminasActivity extends Activity {
         fieldListener = new OnClickListener(){
         	
 			public void onClick(View arg0) {
+				//Chronometer
+				if(!chronoRunning){
+					chronoRunning = true;
+					chrono.setBase(SystemClock.elapsedRealtime());
+					chrono.start();
+				}
 				QuadrantButton b = (QuadrantButton)arg0;
 				if (game.explore(b.quadrant)){
+					chronoRunning = false;
+					chrono.stop();
 					Toast.makeText(getApplicationContext(), "GAME OVER, LOSER", Toast.LENGTH_SHORT).show();
 					alert.show();
 				}
 				updateMineFieldView();
 				if(game.hasWon() && !game.gameOverLost){
+					chronoRunning = false;
+					chrono.stop();
 					Toast.makeText(getApplicationContext(), "WINNING!", Toast.LENGTH_SHORT).show();
 					alert.show();
 				}
-				tv.setText("Number of remaining marks: " +game.getRemainingMarks());
+				tv.setText(game.getRemainingMarks());
 			}
         };
         
         //Control of the user's long click
         longFieldListener = new OnLongClickListener(){
 			public boolean onLongClick(View arg0) {
-				
+				//Chronometer
+				if(!chronoRunning){
+					chronoRunning = true;
+					chrono.setBase(SystemClock.elapsedRealtime());
+					chrono.start();
+				}
 				QuadrantButton b = (QuadrantButton)arg0;
 				
 				if(b.quadrant.mineOnQuad && b.quadrant.state == ViewState.UNTOUCHED && game.nrMarked < game.nrMines){//mine and nothing on it
-					System.out.println("Mine marked");
 					game.increaseMinesMarked();
 					game.increaseMarked();
 					b.quadrant.state = ViewState.MARKED;
 				}else if(!b.quadrant.mineOnQuad && b.quadrant.state == ViewState.UNTOUCHED && game.nrMarked < game.nrMines){//no mine and nothing on it
-					System.out.println("Number marked");
 					game.increaseMarked();
 					b.quadrant.state = ViewState.MARKED;
-				}else if(b.quadrant.mineOnQuad && b.quadrant.state == ViewState.MARKED){//mine and something on it
-					System.out.println("Mine unmarked");
+				}else if(b.quadrant.mineOnQuad && b.quadrant.state == ViewState.MARKED){//mine and something on it;
 					game.decreaseMinesMarked();
 					game.decreaseMarked();
 					b.quadrant.state = ViewState.UNTOUCHED;
 				}else if(!b.quadrant.mineOnQuad && b.quadrant.state == ViewState.MARKED){//no mine and somthing on it
-					System.out.println("Number unmarked");
 					game.decreaseMarked();
 					b.quadrant.state = ViewState.UNTOUCHED;
 				}
 				updateMineFieldView();
 				if(game.hasWon() && !game.gameOverLost){
+					chronoRunning = false;
+					chrono.stop();
 					Toast.makeText(getApplicationContext(), "WINNING!", Toast.LENGTH_SHORT).show();
 					alert.show();
 				}
-				tv.setText("Number of remaining marks: " +game.getRemainingMarks());
+				tv.setText(game.getRemainingMarks());
 				return true; //We are controlling the long click
 			}
         	
@@ -173,6 +199,8 @@ public class BuscaminasActivity extends Activity {
      * @param target corresponding View
      */
     public void newGameClick(View target){
+    	chronoRunning = false;
+		chrono.stop();
 		Intent gameOptionsInt = new Intent(this, de.buscaminas.MineFieldOptionsActivity.class);
 		startActivityForResult( gameOptionsInt, INT_REQ_GAME_OPTIONS );
     }
@@ -214,7 +242,7 @@ public class BuscaminasActivity extends Activity {
         setupMineFieldButtons();
         game.setNumbers();
         updateMineFieldView();
-        tv.setText("Number of remaining marks: " +game.getRemainingMarks());
+        tv.setText(game.getRemainingMarks());
     }
     
     /**
@@ -256,16 +284,21 @@ public class BuscaminasActivity extends Activity {
         		
         		if(curr_field.quadrant.state == ViewState.DISCOVERED || curr_field.quadrant.state == ViewState.BOMBED){
 	        		if (curr_field.quadrant.nrAdjacentMines > 0){
+	        			curr_field.setDiscoveredLook(this);
 	        			curr_field.setText(String.valueOf((curr_field.quadrant.nrAdjacentMines)));
 	        		} 
 	        		else if (curr_field.quadrant.mineOnQuad){
-	        			curr_field.setText("x");
+	        			curr_field.setDiscoveredLook(this);
+	        			curr_field.setText("X");
 	        		} 
 	        		else {
+	        			curr_field.setDiscoveredLook(this);
 	        			curr_field.setText("o");
 	        		}
         		}else if (curr_field.quadrant.state == ViewState.MARKED){
         			curr_field.setText("M");
+        		}else{
+        			curr_field.setText("");
         		}
         		
         		// show state (button-color)

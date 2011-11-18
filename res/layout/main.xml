@@ -2,23 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:weightSum="1" android:layout_height="match_parent" android:layout_width="match_parent">
-    <LinearLayout 
-   		android:layout_height="wrap_content" 
-    	android:layout_width="match_parent" 
-    	android:id="@+id/linearLayout1">
-        <Button 
-        	android:layout_height="wrap_content" 
-        	android:id="@+id/testbutton" 
-        	android:text="@string/buttonPlay" 
-        	android:layout_width="150px" 
-        	android:onClick="newGameClick"
-        	/>
-    </LinearLayout>
-    <TextView 
+    <Button 
     	android:layout_height="wrap_content" 
-		android:layout_width="match_parent"
-		android:id="@+id/nrMarked" 
-    />
+    	android:id="@+id/testbutton" 
+    	android:text="@string/buttonPlay" 
+    	android:layout_width="150px" 
+    	android:layout_gravity="center"
+    	android:onClick="newGameClick"
+    />    
     <TableLayout 
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
@@ -26,4 +17,33 @@
 		android:id="@+id/tableLayout1" 
 		android:background="#A69999">
 	</TableLayout>
+	<LinearLayout 
+   		android:layout_height="wrap_content" 
+    	android:layout_width="match_parent" 
+    	android:orientation="horizontal"
+    	android:gravity="center"
+    	android:padding="15dp"
+    	android:id="@+id/ll_counters">
+    	<ImageView
+		      android:layout_width="wrap_content"
+		      android:layout_height="wrap_content"
+		      android:src="@drawable/dinamita"/>
+        <TextView 
+	    	android:layout_height="wrap_content" 
+			android:layout_width="wrap_content"
+			android:paddingRight="15dp"
+			android:id="@+id/nrMarked" 
+	    />
+	    <ImageView
+		      android:layout_width="wrap_content"
+		      android:layout_height="wrap_content"
+		      android:paddingRight="3dp"
+		      android:src="@drawable/reloj3"/>
+	    <Chronometer 
+	    	android:text="Chronometer" 
+	    	android:id="@+id/chronometer1" 
+	    	android:layout_width="wrap_content" 
+	    	android:layout_height="wrap_content">
+	    </Chronometer>
+    </LinearLayout>
 </LinearLayout>
