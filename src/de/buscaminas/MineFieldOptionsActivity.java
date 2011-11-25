@@ -10,9 +10,9 @@ import android.widget.SeekBar;
 /**
  * Creates the GUI to set the options for a game
  * 
- * @author Christopher Büttner
  * @author Alvaro Santisteban
- * @version 1
+ * @author Christopher Büttner
+ * @version 1.5
  * 
  */
 public class MineFieldOptionsActivity extends Activity implements SeekBar.OnSeekBarChangeListener {

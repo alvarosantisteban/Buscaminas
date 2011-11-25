@@ -6,9 +6,9 @@ package de.buscaminas;
  * 
  * A Quadrant has an external and internal state and the numbers of mines that surround it.  
  * 
- * @author Christopher Büttner
  * @author Alvaro Santisteban
- * @version 1
+ * @author Christopher Büttner
+ * @version 1.5
  * 
  */
 public class Quadrant {
@@ -27,11 +27,11 @@ public class Quadrant {
 	/**
 	 * The game logic
 	 */
-	GameLogic game; // Why should a Quadrant contain the game logic?
+	GameLogic game;
 	/**
 	 * A boolean that controls if the Quadrant has been explored during the method explore_rec: true if it has been already explored
 	 */
-	boolean rec_explore_state; // why is not initialized in the constructor?
+	boolean rec_explore_state; 
 	
 	/**
 	 * Constructor for the class that initializes all the variables of the class

@@ -6,9 +6,9 @@ import java.util.Random;
  * Contains all the logic of the game including the internal creation of the array of Quadrants, the distribution of mines on it and the control
  * of the actions that the user can make. 
  * 
- * @author Christopher Büttner
  * @author Alvaro Santisteban
- * @version 1
+ * @author Christopher Büttner
+ * @version 1.5
  * 
  */
 public class GameLogic { 
@@ -34,7 +34,7 @@ public class GameLogic {
 	 */
 	Quadrant quads[][];
 	/**
-	 * Controls if the game has ended because the user failed
+	 * Controls if the game has ended because the user clicked on a mine
 	 */
 	boolean gameOverLost;
 	/**
@@ -177,16 +177,16 @@ public class GameLogic {
 	}
 	
 	/**
-	 * Controls if the clicked given Quadrant contains a bomb. 
+	 * Controls if the clicked given Quadrant contains a mine. 
 	 * If that is so, the game ends. 
 	 * If not, initializes the "explore state" for all quadrants and calls the recursive method explore_rec
 	 * 
 	 * @param quadrant the clicked Quadrant 
-	 * @return true if the given Quadrant contains a bomb
+	 * @return true if the given Quadrant contains a mine
 	 * @see explore_rec
 	 */
 	public boolean explore( Quadrant quadrant ){
-		//Controls if the clicked given Quadrant contains a bomb. 
+		//Controls if the clicked given Quadrant contains a mine. 
 		if ( quadrant.mineOnQuad ){
 			gameOverLost = true;
 			for (int row = 0; row < nrRows; row++){
@@ -210,7 +210,7 @@ public class GameLogic {
 	
 	/**
 	 * Recursive method that for a given Quadrant explores the surrounding Quadrants to try to unveil (mark with the state DISCOVERED) 
-	 * the maximum number of Quadrants that don't contain a bomb
+	 * the maximum number of Quadrants that don't contain a mine
 	 * 
 	 * @param quadrant the given Quadrant from which its surroundings are unveiled
 	 */

@@ -17,16 +17,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * Contains the Android Graphical User Interface 
+ * Contains Android's Graphical User Interface 
  * 
- * @author Christopher Büttner
  * @author Alvaro Santisteban
- * @version 1
+ * @author Christopher Büttner
+ * @version 1.5
  * 
  */
 public class BuscaminasActivity extends Activity { 
 	/**
-	 * NO SE LO QUE HACE
+	 * Game options
 	 */
 	static final private int INT_REQ_GAME_OPTIONS = 0;
 	/**
@@ -96,7 +96,6 @@ public class BuscaminasActivity extends Activity {
         setContentView(R.layout.main);
         
         chrono = (Chronometer)findViewById(R.id.chronometer1);
-
         tl = (TableLayout)findViewById(R.id.tableLayout1);
         tv =(TextView)findViewById(R.id.nrMarked);
         
@@ -138,7 +137,7 @@ public class BuscaminasActivity extends Activity {
 				if (game.explore(b.quadrant)){
 					chronoRunning = false;
 					chrono.stop();
-					Toast.makeText(getApplicationContext(), "GAME OVER, LOSER", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getApplicationContext(), "GAME OVER!", Toast.LENGTH_SHORT).show();
 					alert.show();
 				}
 				updateMineFieldView();
@@ -234,6 +233,7 @@ public class BuscaminasActivity extends Activity {
 	 * Creates a new game by initializing all its variables or calling to the corresponding method
 	 * 
 	 * @param nrRows number of rows for the Buscaminas
+	 * @param nrMines number of mines for the Buscaminas
 	 */
     private void create_new_game( int nrRows, int nrMines ){
         game = new GameLogic(nrRows, nrMines);
